@@ -1,2 +1,45 @@
 # afriadmin
-african admin boundaries
+african administrative boundaries
+
+To make administrative boundary polygons for Africa easily accessible from R.
+
+A part of the afrimapt project.
+
+In early development, contact Andy South with questions.
+
+
+There are various sources of administrative boundaries available on the web, and existing R packages for accessing them.
+
+This package will improve access to boundaries for Africa.
+
+It will start by giving access to African admin boundaries at all levels from [gadm.org](https://gadm.org/) (probably the best current source of global admin boundaries).
+
+As a first step I've saved all the full resolution gadm files in the package to save having to download them each time.
+
+Later we may choose to save just lower resolution versions.
+
+I'll develop interface functions that are intended to stay similar, what is happening behind may change. 
+
+
+### Install afriadmin
+
+Install the development version from GitHub using [devtools](https://github.com/hadley/devtools).
+
+    devtools::install_github("afrimapr/afriadmin")
+
+
+### First Usage
+
+``` r
+library(afriadmin)
+library(sf)
+
+#Angola level 2
+plot(sf::st_geometry(afriadmin("AGO",2)))
+
+# todo move the readme to an Rmd to allow plots
+
+```
+
+
+

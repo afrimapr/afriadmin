@@ -41,5 +41,9 @@ plot(sf::st_geometry(afriadmin("AGO",2)))
 
 ```
 
+### Use cases
+
+1. Single country maps.
+We want to target in-country use. People in Africa making maps of Africa. Maybe there will be a greater utility for tools that make it easy to make maps of a single country rather than of multipl countries ? 
 
 

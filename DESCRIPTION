@@ -1,13 +1,24 @@
 Package: afriadmin
-Title: What the Package Does (One Line, Title Case)
+Title: African Administrative Boundary Polygons
 Version: 0.0.0.9000
+Date: 2020-01-20
 Authors@R: 
-    person(given = "First",
-           family = "Last",
-           role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: What license it uses
+    c(
+    person("Andy", "South", email = "southandy@gmail.com", role = c("aut", "cre"),comment = c(ORCID = "0000-0003-4051-6135")),           
+    person("Robin", "Lovelace", email = "rob00x@gmail.com", role = c("aut"), comment = c(ORCID = "0000-0001-5679-6536")),
+    person("Paula", "Moraga", email = "pm865@bath.ac.uk", role = "aut")
+    )
+Description: Will make administrative boundary polygons for Africa easily accessible from R.
+License: GPL (>= 3) | file LICENSE
+URL: https://github.com/afrimapr/afriadmin
+BugReports: https://github.com/afrimapr/afriadmin/issues
+Depends:
+    methods,
+    R (>= 2.10)
+Imports:
+    sf,
+    mapview,
+    countrycode
 Encoding: UTF-8
-LazyData: true
+LazyData: true    
+    

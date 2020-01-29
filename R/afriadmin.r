@@ -26,8 +26,8 @@
 #' @export
 #'
 afriadmin <- function(country,
-                      datasource = 'gadm',
                       level = 'max',
+                      datasource = 'gadm',
                       plot = 'mapview') {
 
   #GADM_SF_URL  = "https://biogeo.ucdavis.edu/data/gadm3.6/Rsf/gadm36_"

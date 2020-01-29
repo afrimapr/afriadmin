@@ -4,15 +4,15 @@
 \alias{afriadmin}
 \title{Get admin polygons}
 \usage{
-afriadmin(country, datasource = "gadm", level = "max",
+afriadmin(country, level = "max", datasource = "gadm",
   plot = "mapview")
 }
 \arguments{
 \item{country}{a character vector of country names or iso3c character codes.}
 
-\item{datasource}{data source, initial default 'gadm'}
-
 \item{level}{whih admin level to return}
+
+\item{datasource}{data source, initial default 'gadm'}
 
 \item{plot}{option to display map 'mapview' for interactive, 'sf' for static}
 }

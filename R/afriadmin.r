@@ -13,8 +13,9 @@
 #' returns admin polygons for specified countries and optionally plots map
 #'
 #' @param country a character vector of country names or iso3c character codes.
+#' @param datasource data source, initial default 'gadm'
 #' @param level whih admin level to return
-#' @param plot whether to display map
+#' @param plot option to display map 'mapview' for interactive, 'sf' for static
 #'
 #'
 #' @examples
@@ -25,8 +26,9 @@
 #' @export
 #'
 afriadmin <- function(country,
+                      datasource = 'gadm',
                       level = 'max',
-                      plot = TRUE) {
+                      plot = 'mapview') {
 
   #GADM_SF_URL  = "https://biogeo.ucdavis.edu/data/gadm3.6/Rsf/gadm36_"
   #initially store files directly as downloaded from gadm
@@ -38,7 +40,7 @@ afriadmin <- function(country,
 
   # find the max admin level available
   # either to check that asked for one is there, or to find max
-  maxlevel <- maxadmin(country=iso3c)
+  maxlevel <- maxadmin(country=iso3c, datasource=datasource)
 
   if (level=='max')
   {
@@ -48,60 +50,20 @@ afriadmin <- function(country,
   else if (level > maxlevel)
   {
     warning("max admin level available for ",iso3c," is ",maxlevel," you requested ",level)
-    #maybe do this to return mot detailed available
+    #maybe do this to return most detailed available
     level <- maxlevel
   }
 
   filename <- paste0(iso3c,'_adm',level,'.sf.rds')
 
-  # path <- system.file(package="afriadmin")
-  # sf1 <- readRDS(file.path(path, "external/", filename))
-
   sf1 <- readRDS(file.path(path, filename))
 
   # display map if option chosen
   # helps with debugging, may not be permanent
-  #if (plot) plot(sf::st_geometry(sf1))
 
-  if (plot) print(mapview::mapview(sf1, zcol=paste0("NAME_",level), legend=FALSE))
+  if (plot == 'mapview') print(mapview::mapview(sf1, zcol=paste0("NAME_",level), legend=FALSE))
+  else if (plot == 'sf') plot(sf::st_geometry(sf1))
 
   return(sf1)
 }
-
-
-#initial conversion from country names
-#todo vectorise
-country2iso <- function(country) {
-
-  if (nchar(country) > 3)
-  {
-    iso3c <- countrycode::countrycode(country, origin='country.name', destination='iso3c')
-  } else
-  {
-    #to allow iso3c argument in lower case
-    iso3c <- toupper(country)
-  }
-
-  iso3c
-
-}
-
-
-# return max admin level for a country
-# initialy gadm but could be other sources too
-# todo should be vectorised
-maxadmin <- function(country) {
-
-  path <- system.file(package="afriadmin","/external")
-
-  # check and convert country names to iso codes
-  iso3c <- country2iso(country)
-
-  allfiles <- list.files(path)
-  countryfiles <- allfiles[ substr(allfiles,1,3)==iso3c ]
-  levs <- as.numeric( substr(countryfiles,8,8) )
-  lev_hi <- max(levs)
-  lev_hi
-}
-
 

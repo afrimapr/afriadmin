@@ -13,7 +13,6 @@ License: GPL (>= 3) | file LICENSE
 URL: https://github.com/afrimapr/afriadmin
 BugReports: https://github.com/afrimapr/afriadmin/issues
 Depends:
-    methods,
     R (>= 2.10)
 Imports:
     sf,
@@ -21,4 +20,4 @@ Imports:
     countrycode
 Encoding: UTF-8
 LazyData: true    
-    
+RoxygenNote: 6.1.1

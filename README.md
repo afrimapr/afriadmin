@@ -23,6 +23,8 @@ I'll develop interface functions that are intended to stay similar, what is happ
 
 Install the development version from GitHub using [devtools](https://github.com/hadley/devtools).
 
+    # install.packages("devtools") # if not already installed
+    
     devtools::install_github("afrimapr/afriadmin")
 
 
@@ -32,8 +34,13 @@ Install the development version from GitHub using [devtools](https://github.com/
 library(afriadmin)
 library(sf)
 
-#Angola level 2
-plot(sf::st_geometry(afriadmin("AGO",2)))
+# with interactive map
+sfken <- afriadmin("kenya",level='max', plot='mapview')
+
+# static map
+sfeth <- afriadmin("ethiopia",level='max', plot='sf')
+
+afriadmin("Angola",level=2)
 
 # todo move the readme to an Rmd to allow plots
 

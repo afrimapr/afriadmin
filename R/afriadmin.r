@@ -43,11 +43,11 @@ afriadmin <- function(country,
   if (level=='max')
   {
     level <- maxlevel
-    message("returning max admin level available for ",iso3,", ",maxlevel)
+    message("returning max admin level available for ",iso3c,", ",maxlevel)
   }
   else if (level > maxlevel)
   {
-    warning("max admin level available for ",iso3," is ",maxlevel," you requested ",level)
+    warning("max admin level available for ",iso3c," is ",maxlevel," you requested ",level)
     #maybe do this to return mot detailed available
     level <- maxlevel
   }

@@ -2,4 +2,5 @@
 
 export(afriadmin)
 export(country2iso)
+export(hdxadmin)
 export(maxadmin)

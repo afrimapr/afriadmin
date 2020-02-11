@@ -27,12 +27,84 @@ hdxadmin <- function(country) {
     ds <- datasets_list
 
     #hoping that it just returns a single dataset (with multiple resources)
-    #kenya seems to return list(0)
 
-    list_of_rs <- get_resources(ds[[1]])
+    list_of_rs <- rhdx::get_resources(ds[[1]])
 
     list_of_rs
+
+    #lapply(ken, function(x) get_resource_format(x))
+
+    #[1] "zipped shapefiles"
+    #[1] "zipped geodatabase"
+
+    # pull_dataset("administrative-boundaries-cod-mli") %>%
+    #          get_resource(3) %>%
+    #          read_resource(download_folder=getwd()) -> malishp
+    #
+    # plot(sf::st_geometry(malishp))
+
+    # alternative approach using name of resource
+    # is naming consistent ?
+    ds <- pull_dataset("administrative-boundaries-cod-mli")
+
+    # for Mali is 3rd resource
+    # TODO find better way of selecting from dataset list
+    re <- get_resource(ds, 3)
+
+    # find which layers in file
+    mlayers <- get_resource_layers(re, download_folder=getwd())
+
+    # next can I search for adm1 3 etc. in name field of the result
+    # to get the layer I want
+
+    #mlayers$name[ grep("adm2",mlayers$name) ]
+    #using paste from admin_level
+    level <- 2
+    layername <- mlayers$name[ grep(paste0("adm",level),mlayers$name) ]
+    # this relies on all country layers having adm* in their names
+
+    # read layer using layername
+    sflayer <- read_resource(re, layer=layername, download_folder=getwd())
+
+    plot(sf::st_geometry(sflayer))
+
+    # when I do directly from sf (see below)
+    # seems to be problem opening a layer from a zipped shapefile by name
+    # somehow rhdx gets around that
+
+
+    # TODO will it work for geodatabase ?
+
+
 }
+
+# rhdx seems to read the first layer if one isn't specified
+# read_hdx_vector <- function(file = NULL, layer = NULL, zipped = TRUE, ...) {
+#     check_packages("sf")
+#     if (zipped)
+#         file <- file.path("/vsizip", file)
+#     if (is.null(layer)) {
+#         layer <- sf::st_layers(file)[[1]][1]
+#         message("reading layer: ", layer, "\n")
+#     }
+#     sf::read_sf(dsn = file, layer = layer, ...)
+# }
+
+
+#sf to find layers in a file
+#mlayers <- sf::st_layers(file.path("/vsizip","mli_adm_1m_dnct_2019_shp.zip"))
+
+#reads first layer by default if not specified
+sfmali <- sf::read_sf(file.path("/vsizip","mli_adm_1m_dnct_2019_shp.zip"))
+
+sfmali <- sf::read_sf(file.path("/vsizip","mli_adm_1m_dnct_2019_shp.zip", layer=mlayers$name[2]))
+#still problem reading 2nd layr from zip
+#Error: Cannot open "/vsizip/mli_adm_1m_dnct_2019_shp.zip/mli_admbnda_adm1_1m_dnct_20190802"; The file doesn't seem to exist.
+
+plot(sf::st_geometry(sfmali))
+
+# rhdx has some useful code for querying format of resources from hdx and
+# determining how to open them
 
 # using gazetteer
 # > hdxadmin("nigeria")

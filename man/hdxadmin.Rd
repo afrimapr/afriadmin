@@ -4,10 +4,14 @@
 \alias{hdxadmin}
 \title{hdx admin layers starting to looking at downloading}
 \usage{
-hdxadmin(country)
+hdxadmin(country, level = 2, plot = "sf")
 }
 \arguments{
 \item{country}{a character vector of country names}
+
+\item{level}{which admin level to return}
+
+\item{plot}{option to display map 'mapview' for interactive, 'sf' for static}
 }
 \value{
 not sure yet

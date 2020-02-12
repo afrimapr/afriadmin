@@ -10,7 +10,7 @@ afriadmin(country, level = "max", datasource = "gadm",
 \arguments{
 \item{country}{a character vector of country names or iso3c character codes.}
 
-\item{level}{whih admin level to return}
+\item{level}{which admin level to return}
 
 \item{datasource}{data source, initial default 'gadm'}
 

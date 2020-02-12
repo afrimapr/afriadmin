@@ -3,7 +3,8 @@
 #' #todo vectorise
 #'
 #' @param country a character vector of country names
-#'
+#' @param level which admin level to return
+#' @param plot option to display map 'mapview' for interactive, 'sf' for static
 #'
 #' @examples
 #'
@@ -12,7 +13,9 @@
 #' @return not sure yet
 #' @export
 #'
-hdxadmin <- function(country) {
+hdxadmin <- function(country,
+                     level = 2,
+                     plot = 'sf') {
 
 
     iso3clow <- tolower(country2iso(country))
@@ -44,8 +47,13 @@ hdxadmin <- function(country) {
     # plot(sf::st_geometry(malishp))
 
     # alternative approach using name of resource
-    # is naming consistent ?
+    # TODO is naming consistent ?
     ds <- pull_dataset("administrative-boundaries-cod-mli")
+    # these fail, may need to go back to query
+    #ds <- pull_dataset("administrative-boundaries-cod-uga") #uganda none ?
+    #ds <- pull_dataset("administrative-boundaries-cod-nga") #nigeria none ?
+
+    list_of_rs <- rhdx::get_resources(ds)
 
     # for Mali is 3rd resource
     # TODO find better way of selecting from dataset list
@@ -59,14 +67,19 @@ hdxadmin <- function(country) {
 
     #mlayers$name[ grep("adm2",mlayers$name) ]
     #using paste from admin_level
-    level <- 2
+    #level <- 2
+    level <- 3
     layername <- mlayers$name[ grep(paste0("adm",level),mlayers$name) ]
     # this relies on all country layers having adm* in their names
 
     # read layer using layername
     sflayer <- read_resource(re, layer=layername, download_folder=getwd())
 
+
+    #todo later put these plotting bits into shared function
     plot(sf::st_geometry(sflayer))
+
+    mapview(sflayer, zcol=paste0("admin",level,"Name"), legend=FALSE)
 
     # when I do directly from sf (see below)
     # seems to be problem opening a layer from a zipped shapefile by name
@@ -95,13 +108,13 @@ hdxadmin <- function(country) {
 #mlayers <- sf::st_layers(file.path("/vsizip","mli_adm_1m_dnct_2019_shp.zip"))
 
 #reads first layer by default if not specified
-sfmali <- sf::read_sf(file.path("/vsizip","mli_adm_1m_dnct_2019_shp.zip"))
-
-sfmali <- sf::read_sf(file.path("/vsizip","mli_adm_1m_dnct_2019_shp.zip", layer=mlayers$name[2]))
-#still problem reading 2nd layr from zip
-#Error: Cannot open "/vsizip/mli_adm_1m_dnct_2019_shp.zip/mli_admbnda_adm1_1m_dnct_20190802"; The file doesn't seem to exist.
-
-plot(sf::st_geometry(sfmali))
+# sfmali <- sf::read_sf(file.path("/vsizip","mli_adm_1m_dnct_2019_shp.zip"))
+#
+# sfmali <- sf::read_sf(file.path("/vsizip","mli_adm_1m_dnct_2019_shp.zip", layer=mlayers$name[2]))
+# #still problem reading 2nd layr from zip
+# #Error: Cannot open "/vsizip/mli_adm_1m_dnct_2019_shp.zip/mli_admbnda_adm1_1m_dnct_20190802"; The file doesn't seem to exist.
+#
+# plot(sf::st_geometry(sfmali))
 
 # rhdx has some useful code for querying format of resources from hdx and
 # determining how to open them

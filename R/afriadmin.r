@@ -14,7 +14,7 @@
 #'
 #' @param country a character vector of country names or iso3c character codes.
 #' @param datasource data source, initial default 'gadm'
-#' @param level whih admin level to return
+#' @param level which admin level to return
 #' @param plot option to display map 'mapview' for interactive, 'sf' for static
 #'
 #'

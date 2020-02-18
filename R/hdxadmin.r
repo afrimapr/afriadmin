@@ -20,23 +20,71 @@ hdxadmin <- function(country,
 
     iso3clow <- tolower(country2iso(country))
 
-    #querytext <- paste0('vocab_Topics:("common operational dataset - cod" AND "administrative divisions") AND groups:', iso3clow)
-    querytext <- paste0('vocab_Topics:("common operational dataset - cod" AND "gazetteer") AND groups:', iso3clow)
+    iso3clow <- 'nga'
+    #iso3clow <- 'mli'
+    level <- 2
 
+    #nigeria does return single result
+    #mali returns two datasets first one is population
+    querytext <- paste0('vocab_Topics:("common operational dataset - cod" AND "gazetteer" NOT "baseline population") AND groups:', iso3clow)
 
     rhdx::set_rhdx_config()
     datasets_list <- rhdx::search_datasets(fq = querytext)
 
-    ds <- datasets_list
+    #query needs to return a single dataset (with multiple resources)
+    ds <- datasets_list[[1]]
 
-    #hoping that it just returns a single dataset (with multiple resources)
-
-    list_of_rs <- rhdx::get_resources(ds[[1]])
-
+    #get list of resources
+    list_of_rs <- rhdx::get_resources(ds)
     list_of_rs
 
-    #lapply(ken, function(x) get_resource_format(x))
+    #selecting resource
+    #nigeria "zipped shapefiles"
+    #mali "zipped shapefile"
+    ds_id <- which( rhdx::get_formats(ds) == "zipped shapefiles" | "zipped shapefile")
 
+    rs <- rhdx::get_resource(ds, ds_id)
+
+    # find which layers in file
+    mlayers <- rhdx::get_resource_layers(rs, download_folder=getwd())
+
+
+    #error for nigeria
+    #<HDX Resource> aa69f07b-ed8e-456a-9233-b20674730be6
+    #Name: nga_adm_osgof_20190417_SHP.zip
+    #Description: Administrative level 0 (country), 1 (state), 2 (local government area), 3 (wards - northeast Nigeria), and  senatorial districts boundary shapefiles
+    #Format: ZIPPED SHAPEFILES
+    #I suspect problem because uppercase and s on end
+    #Error: This (spatial) data format is not yet supported
+    #in hdx resources.r
+    # supported_geo_format <- c("geojson", "zipped shapefile", "zipped geodatabase",
+    #                           "zipped geopackage", "kmz", "zipped kml")
+
+    #added "zipped shapefiles" option to supported_geo_format in my local branch of rhdx
+    #now I get
+    #Cannot open data source /vsizip/C:/rsprojects/afriadmin/nga_adm_osgof_20190417_shp.zip
+    #Error in CPL_get_layers(dsn, options, do_count) : Open failed.
+    #can I open a layer from the downloaded file directly ?
+    #using default should open the first layer
+    sflayer <- rhdx::read_resource(rs, download_folder=getwd())
+    plot(sf::st_geometry(sflayer))
+    #no this also fails
+    #seemingly because there is a subfolder within the zip
+    #aha, nigeria is in a folder within the zip and mali isn't so nigeria fails and mali works
+    #is there a way of detecting and dealing with this ?
+
+
+    # later read layer using layername
+    # this relies on all country layers having adm* in their names
+    layername <- mlayers$name[ grep(paste0("adm",level),mlayers$name) ]
+
+    sflayer <- read_resource(re, layer=layername, download_folder=getwd())
+
+    #test plotting
+    plot(sf::st_geometry(sflayer))
+
+
+    #lapply(ken, function(x) get_resource_format(x))
     #[1] "zipped shapefiles"
     #[1] "zipped geodatabase"
 
@@ -86,7 +134,9 @@ hdxadmin <- function(country,
     # somehow rhdx gets around that
 
 
-    # TODO will it work for geodatabase ?
+    # TODO will it work for geodatabase ? not quite
+    # also geopackage not present for all countries
+    ds_id <- which( rhdx::get_formats(ds) == "geodatabase" )
 
 
 }

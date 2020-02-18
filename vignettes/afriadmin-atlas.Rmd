@@ -1,0 +1,23 @@
+---
+title: "afriadmin-atlas"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{afriadmin-atlas}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+
+#initial creation of this file
+#usethis::use_vignette("afriadmin-atlas")
+
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(afriadmin)
+```

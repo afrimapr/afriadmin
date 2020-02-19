@@ -2,7 +2,8 @@
 % Please edit documentation in R/hdxadmin.r
 \name{hdxadmin}
 \alias{hdxadmin}
-\title{hdx admin layers starting to looking at downloading}
+\title{hdx admin layers starting to looking at downloading
+NOT WORKING YET}
 \usage{
 hdxadmin(country, level = 2, plot = "sf")
 }
@@ -21,6 +22,6 @@ not sure yet
 }
 \examples{
 
-hdxadmin("nigeria")
+#hdxadmin("nigeria")
 
 }

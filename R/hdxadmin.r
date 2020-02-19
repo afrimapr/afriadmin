@@ -1,4 +1,5 @@
 #' hdx admin layers starting to looking at downloading
+#' NOT WORKING YET
 #'
 #' #todo vectorise
 #'
@@ -8,7 +9,7 @@
 #'
 #' @examples
 #'
-#' hdxadmin("nigeria")
+#' #hdxadmin("nigeria")
 #'
 #' @return not sure yet
 #' @export
@@ -41,7 +42,8 @@ hdxadmin <- function(country,
     #selecting resource
     #nigeria "zipped shapefiles"
     #mali "zipped shapefile"
-    ds_id <- which( rhdx::get_formats(ds) == "zipped shapefiles" | "zipped shapefile")
+    ds_id <- which( rhdx::get_formats(ds) %in% c("zipped shapefiles","zipped shapefile"))
+
 
     rs <- rhdx::get_resource(ds, ds_id)
 
@@ -95,39 +97,39 @@ hdxadmin <- function(country,
     # plot(sf::st_geometry(malishp))
 
     # alternative approach using name of resource
-    # TODO is naming consistent ?
-    ds <- pull_dataset("administrative-boundaries-cod-mli")
+    # naming seems not consistent ?
+    # ds <- pull_dataset("administrative-boundaries-cod-mli")
     # these fail, may need to go back to query
     #ds <- pull_dataset("administrative-boundaries-cod-uga") #uganda none ?
     #ds <- pull_dataset("administrative-boundaries-cod-nga") #nigeria none ?
 
-    list_of_rs <- rhdx::get_resources(ds)
-
-    # for Mali is 3rd resource
-    # TODO find better way of selecting from dataset list
-    re <- get_resource(ds, 3)
-
-    # find which layers in file
-    mlayers <- get_resource_layers(re, download_folder=getwd())
-
-    # next can I search for adm1 3 etc. in name field of the result
-    # to get the layer I want
-
-    #mlayers$name[ grep("adm2",mlayers$name) ]
-    #using paste from admin_level
-    #level <- 2
-    level <- 3
-    layername <- mlayers$name[ grep(paste0("adm",level),mlayers$name) ]
-    # this relies on all country layers having adm* in their names
-
-    # read layer using layername
-    sflayer <- read_resource(re, layer=layername, download_folder=getwd())
-
-
-    #todo later put these plotting bits into shared function
-    plot(sf::st_geometry(sflayer))
-
-    mapview(sflayer, zcol=paste0("admin",level,"Name"), legend=FALSE)
+    # list_of_rs <- rhdx::get_resources(ds)
+    #
+    # # for Mali is 3rd resource
+    # # TODO find better way of selecting from dataset list
+    # re <- get_resource(ds, 3)
+    #
+    # # find which layers in file
+    # mlayers <- get_resource_layers(re, download_folder=getwd())
+    #
+    # # next can I search for adm1 3 etc. in name field of the result
+    # # to get the layer I want
+    #
+    # #mlayers$name[ grep("adm2",mlayers$name) ]
+    # #using paste from admin_level
+    # #level <- 2
+    # level <- 3
+    # layername <- mlayers$name[ grep(paste0("adm",level),mlayers$name) ]
+    # # this relies on all country layers having adm* in their names
+    #
+    # # read layer using layername
+    # sflayer <- read_resource(re, layer=layername, download_folder=getwd())
+    #
+    #
+    # #todo later put these plotting bits into shared function
+    # plot(sf::st_geometry(sflayer))
+    #
+    # mapview(sflayer, zcol=paste0("admin",level,"Name"), legend=FALSE)
 
     # when I do directly from sf (see below)
     # seems to be problem opening a layer from a zipped shapefile by name
@@ -136,7 +138,7 @@ hdxadmin <- function(country,
 
     # TODO will it work for geodatabase ? not quite
     # also geopackage not present for all countries
-    ds_id <- which( rhdx::get_formats(ds) == "geodatabase" )
+    #ds_id <- which( rhdx::get_formats(ds) == "geodatabase" )
 
 
 }

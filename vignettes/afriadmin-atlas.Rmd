@@ -1,6 +1,7 @@
 ---
 title: "afriadmin-atlas"
 output: rmarkdown::html_vignette
+#output: rmarkdown::pdf_document
 vignette: >
   %\VignetteIndexEntry{afriadmin-atlas}
   %\VignetteEngine{knitr::rmarkdown}

@@ -1,5 +1,5 @@
 #' return all africa country names
-#'
+#' (may not need the function, given that I've saved as data afcountries)
 #'
 #' @param nameoriso3c whether to return vector of 'name' or 'iso3c' or 'both'
 #' @param filtercountries optional filter countries that are in 'gadm2' potential to add others
@@ -58,6 +58,8 @@ afcountrynames <- function(nameoriso3c = 'name',
   # #gadm level 2 fails at COM comoros,CPV cape verde, LBY Libya, LSO lesotho, ESH western sahara
   # ve_adm0_a3_afr_gadm2 <- ve_adm0_a3_afr[(!ve_adm0_a3_afr %in% c('COM','CPV','LBY', 'LSO', 'ESH'))]
   # gadm2_afr <- GADMTools::gadm_sf_loadCountries(ve_adm0_a3_afr_gadm2, level=2)
+  #mapview(gadm1_afr$sf, zcol='NAME_1', color=grey, lwd=1, legend=FALSE )
+  #mapview(gadm2_afr$sf, zcol='NAME_2', color=grey, lwd=1, legend=FALSE )
 
   # old code
   # ve_adm0_a3_afr <- sf_ne_africa$adm0_a3 # 54 countries

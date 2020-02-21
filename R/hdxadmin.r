@@ -19,6 +19,15 @@ hdxadmin <- function(country,
                      plot = 'sf') {
 
 
+    warning('hdxadmin still in development and not yet working')
+
+
+    if (!requireNamespace("rhdx", quietly = TRUE)) {
+        stop("Package \"rhdx\" needed for this function to work. Please install it from github.",
+             call. = FALSE)
+    }
+
+
     iso3clow <- tolower(country2iso(country))
 
     iso3clow <- 'nga'

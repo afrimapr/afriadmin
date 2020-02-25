@@ -4,8 +4,7 @@
 \alias{afriadmin}
 \title{Get admin polygons}
 \usage{
-afriadmin(country, level = "max", datasource = "gadm",
-  plot = "mapview")
+afriadmin(country, level = "max", datasource = "gadm", plot = "mapview")
 }
 \arguments{
 \item{country}{a character vector of country names or iso3c character codes.}

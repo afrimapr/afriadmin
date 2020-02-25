@@ -37,6 +37,8 @@ Install the development version from GitHub using [devtools](https://github.com/
 library(afriadmin)
 library(sf)
 
+## single admin levels
+
 # with interactive map
 sfken <- afriadmin("kenya",level='max', plot='mapview')
 
@@ -44,6 +46,17 @@ sfken <- afriadmin("kenya",level='max', plot='mapview')
 sfeth <- afriadmin("ethiopia",level='max', plot='sf')
 
 afriadmin("Angola",level=2)
+
+
+## multiple admin levels - experimental
+
+# single static map
+afplotadmin("malawi")
+
+# facetted using tmap
+# returns a single object containing all admin levels
+sfall <- alllevels("angola")
+
 
 # todo move the readme to an Rmd to allow plots
 

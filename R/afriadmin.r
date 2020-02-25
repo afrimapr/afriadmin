@@ -1,7 +1,6 @@
 #todo add country outlines for whole continent as single file
 #todo maybe if I saved all outlines as a single file it would be easier to subset etc.
 
-#todo allow countrynames as well as iso3
 #todo add error checking for countries
 #todo vectorise iso3c to allow combining countries
 #todo maybe vectorise level too

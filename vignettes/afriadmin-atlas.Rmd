@@ -27,7 +27,7 @@ library(afriadmin)
 
 ```{r atlas-gadm, fig.width=8.5, fig.height=8.5 }
 
-data("afcountries")
+#data("afcountries")
 
 #TEST to avoid error in gzfile readRDS I'm getting
 #afcountries <- afcountrynames(nameoriso3c = 'both', filtercountries='gadm2')
@@ -42,7 +42,7 @@ afcountries <- afcountries[(!afcountries$iso3c %in% c('SOM')),]
 #sf_ne_africa <- rnaturalearth::ne_countries(scale = 'large', type = "countries", continent = 'africa', returnclass='sf')
 
 #an all africa adm0 object from gadm saved to the package (will need to ask permission)
-data(sf_af_gadm0) 
+#data(sf_af_gadm0) 
 
 for(countrynum in 1:nrow(afcountries))
 {
@@ -53,31 +53,7 @@ for(countrynum in 1:nrow(afcountries))
 
   #cat(name," ",iso3c," levels=",maxlevel,"\n")
     
-  #reverse order so lower levels don't get overpainted
-  for(level in maxlevel:0)
-  {
-    sflevel <- afriadmin(iso3c, level=level, datasource='gadm', plot=FALSE)
-    
-    #sf plot options to allow adding multiple layers
-    reset <- ifelse(level==0,TRUE,FALSE)
-    add   <- ifelse(level==maxlevel,FALSE,TRUE)
-    #just add title to first
-    main   <- ifelse(level==maxlevel,name,'')    
-    #border colour according to level
-    border <- switch(as.character(level), 
-                            '0' = 'black', #'darkblue'
-                            '1' = 'darkgreen', #'darkmagenta',
-                            '2' = 'darkorange', #'blue',
-                            '3' = 'yellow')
-    
-    plot(sf::st_geometry(sflevel), reset=reset, add=add, border=border, main=main)
-  }
-  
-  #add africa countries outlines for context
-  plot(sf::st_geometry(sf_af_gadm0), reset=FALSE, add=TRUE, border='grey',lwd=2)
-  #replot adm0 to avoid overplotting
-  plot(sf::st_geometry(sflevel), reset=TRUE, add=TRUE, border=border, main=main)  
-  
+  afplotadmin(country=name, datasource='gadm')
   
 }
 

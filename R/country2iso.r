@@ -24,9 +24,37 @@ country2iso <- function(country) {
   }
 
   iso3c
-
 }
 
 
+#' conversion from iso3c code to country names
+#'
+#' #todo vectorise
+#'
+#' @param iso3c a character vector of country codes
+#'
+#'
+#' @examples
+#'
+#' name <- iso2country("nga")
+#'
+#' @return character vector of country names
+#' @export
+#'
+iso2country <- function(iso3c) {
+
+  if (nchar(iso3c) == 3)
+  {
+    #name <- countrycode::countrycode(iso3c, origin='iso3c', destination='country.name')
+
+    name <- afcountries$name[which(afcountries$iso3c==toupper(iso3c))]
+
+  } else
+  {
+    stop("iso3c needs to be 3 chars, not ",iso3c)
+  }
+
+  name
+}
 
 

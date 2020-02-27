@@ -56,7 +56,7 @@ for(countrynum in 1:length(v_iso3c))
   
   for(level in 1:maxlevel) 
   {
-    hdxlive(country=name, level=level, plot='compare')    
+    hdxlive(country=name, level=level, plot='compare_sf')    
   }
 
   

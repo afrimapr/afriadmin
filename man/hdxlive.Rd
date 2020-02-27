@@ -10,7 +10,9 @@ hdxlive(
   level = 2,
   colr_hdx = rgb(0, 0, 1, alpha = 0.4),
   colr_gadm = rgb(1, 0, 0, alpha = 0.4),
-  plot = "compare"
+  lwd = 2,
+  alpha = 0.5,
+  plot = "compare_sf"
 )
 }
 \arguments{
@@ -21,6 +23,10 @@ hdxlive(
 \item{colr_hdx}{colour for hdx boundaries in plots defaults blue semi-transparent}
 
 \item{colr_gadm}{colour for gadm boundaries in plots defaults red semi-transparent}
+
+\item{lwd}{line width in plots}
+
+\item{alpha}{transparency in mapview plots}
 
 \item{plot}{option to display map 'mapview' for interactive, 'sf' for static, 'compare' to sf compare with gadm}
 }
@@ -38,5 +44,7 @@ start by checking whether I can open a few geojson files copied across
 hdxlive("angola")
 hdxlive('benin',level=2)
 hdxlive('zimbabwe',level=2)
+#to compare gadm and hdx
+hdxlive('malawi',level=2, plot='compare_mapview')
 
 }

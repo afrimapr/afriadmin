@@ -9,6 +9,7 @@ vignette: >
 ---
 
 Compare HDX live admin boundaries (available for c 32 african countries) with GADM.
+Where the boundaries are consistent between the two sources they appear dark red, where they diverge they are lighter red or blue.
 
 ```{r, include = FALSE}
 
@@ -33,16 +34,11 @@ library(afriadmin)
   v_iso3c <- list.files(path)
 
   #TODO check the levels available for each country
-  
   #path <- system.file(package="afriadmin",paste0("external/hdxlive/",iso3clow,"/",level))
   
-
 #data("afcountries")
   
 #Somalia SOM seems to have level2 but not level 0 or 1 in gadm
-#leave it out for now
-#afcountries <- afcountries[(!afcountries$iso3c %in% c('SOM')),]
-
 #COM comoros only has level 1 for gadm
 #miss out these for now
 v_iso3c <- v_iso3c[ -which(v_iso3c%in% c("COM","SOM"))]
@@ -56,9 +52,7 @@ for(countrynum in 1:length(v_iso3c))
   #this is gadm max level
   maxlevel <- maxadmin(iso3c, datasource='gadm')
 
-  # TODO fix why this is failing for some countries
-  cat(name," ",iso3c," levels=",maxlevel,"\n")
-  
+  #cat(name," ",iso3c," levels=",maxlevel,"\n")
   
   for(level in 1:maxlevel) 
   {

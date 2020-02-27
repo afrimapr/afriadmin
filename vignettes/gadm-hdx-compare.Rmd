@@ -1,0 +1,72 @@
+---
+title: "gadm-hdx-compare"
+output: rmarkdown::html_vignette
+#output: rmarkdown::pdf_document
+vignette: >
+  %\VignetteIndexEntry{gadm-hdx-compare}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+Compare HDX live admin boundaries (available for c 32 african countries) with GADM.
+
+```{r, include = FALSE}
+
+#initial creation of this file
+#usethis::use_vignette("gadm-hdx-compare")
+
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(afriadmin)
+```
+
+```{r atlas-gadm, fig.width=8.5, fig.height=8.5 }
+
+  path <- system.file(package="afriadmin",paste0("external/hdxlive/"))
+
+  #vector of iso3c codes with hdx live boundaries given by the folder list
+  v_iso3c <- list.files(path)
+
+  #TODO check the levels available for each country
+  
+  #path <- system.file(package="afriadmin",paste0("external/hdxlive/",iso3clow,"/",level))
+  
+
+#data("afcountries")
+  
+#Somalia SOM seems to have level2 but not level 0 or 1 in gadm
+#leave it out for now
+#afcountries <- afcountries[(!afcountries$iso3c %in% c('SOM')),]
+
+#COM comoros only has level 1 for gadm
+#miss out these for now
+v_iso3c <- v_iso3c[ -which(v_iso3c%in% c("COM","SOM"))]
+
+for(countrynum in 1:length(v_iso3c))
+{
+  
+  iso3c <- v_iso3c[countrynum]  
+  name <- iso2country(iso3c)
+  
+  #this is gadm max level
+  maxlevel <- maxadmin(iso3c, datasource='gadm')
+
+  # TODO fix why this is failing for some countries
+  cat(name," ",iso3c," levels=",maxlevel,"\n")
+  
+  
+  for(level in 1:maxlevel) 
+  {
+    hdxlive(country=name, level=level, plot='compare')    
+  }
+
+  
+}
+
+
+```

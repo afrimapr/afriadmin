@@ -41,6 +41,8 @@ hdxlive <- function(country,
 
   #warning('hdxlive still in development')
 
+  #add requirement for tmap mapview
+
   if (!requireNamespace("geojsonsf", quietly = TRUE)) {
     stop("Package \"geojsonsf\" needed for this function to work. Please install it from github.",
          call. = FALSE)

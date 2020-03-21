@@ -12,6 +12,8 @@
 #' @param colr_hdx colour for hdx boundaries in plots defaults blue semi-transparent
 #' @param colr_gadm colour for gadm boundaries in plots defaults red semi-transparent
 #' @param lwd line width in plots
+#' @param legend legend in sf plots TRUE/FALSE
+#' @param add whether to add sf plot to existing plot
 #' @param alpha transparency in mapview plots
 #' @param plot option to display map 'mapview' for interactive, 'sf' for static, 'compare' to sf compare with gadm
 #'
@@ -32,6 +34,8 @@ hdxlive <- function(country,
                     colr_hdx = rgb(0,0,1,alpha=0.4),
                     colr_gadm = rgb(1,0,0,alpha=0.4),
                     lwd = 2,
+                    legend = TRUE,
+                    add = FALSE,
                     alpha = 0.5,
                      plot = 'compare_sf') {
                      #plot = 'compare_mapview') {
@@ -79,7 +83,7 @@ hdxlive <- function(country,
   # helps with debugging, may not be permanent
 
   if (plot == 'mapview') print(mapview::mapview(sflayer, zcol=paste0("admin",level,"Name"), legend=FALSE))
-  else if (plot == 'sf') plot(sf::st_geometry(sflayer))
+  else if (plot == 'sf') plot(sf::st_geometry(sflayer), add=add, border=colr_hdx, lwd=lwd)
   #to compare hdxlive with gadm
   else if (plot == 'compare_sf' | plot == 'compare_mapview')
   {
@@ -88,15 +92,17 @@ hdxlive <- function(country,
 
     if (plot == 'compare_sf')
     {
-      plot(sf::st_geometry(sflayer), reset=FALSE, border=colr_hdx, main=paste0(country," level",level), lwd=lwd)
+      #plot(sf::st_geometry(sflayer), reset=FALSE, add=add, border=colr_hdx, main=paste0(country," level",level), lwd=lwd)
+      plot(sf::st_geometry(sflayer), reset=FALSE, add=add, border=colr_hdx, lwd=lwd)
+      title(paste0(country," level",level), cex.main=2, font.main=1, col.main='darkgrey')
       #put this before final layer to avoid reset issues
-      graphics::legend("bottomright", c("HDX live","GADM"), lty=1, lwd=lwd, title= NULL, col=c(colr_hdx, colr_gadm), bty='n')
+      if (legend) graphics::legend("bottomright", c("HDX live","GADM"), lty=1, lwd=lwd, title= NULL, col=c(colr_hdx, colr_gadm), bty='n')
       plot(sf::st_geometry(sfgadm), add=TRUE, reset=TRUE, border=colr_gadm, lwd=lwd)
     }
     else if ( plot == 'compare_mapview')
     {
       #col.region sets colours for legend only (because I've set fill to FALSE)
-      print(mapview(list(sflayer,sfgadm), fill=FALSE, color=list(colr_hdx,colr_gadm), col.region=list(colr_hdx,colr_gadm),
+      print(mapview::mapview(list(sflayer,sfgadm), fill=FALSE, color=list(colr_hdx,colr_gadm), col.region=list(colr_hdx,colr_gadm),
               alpha=alpha, lwd=lwd))
       #didn't work to set hover labels to names of polygons
       #,label=list(paste0("admin",level,"Name"),paste0("NAME_",level))

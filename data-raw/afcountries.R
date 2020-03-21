@@ -1,4 +1,5 @@
 ## code to prepare `afcountries` dataset goes here
+#usethis::use_data_raw("afcountries") #opens up an interactive window to save this script
 
 # vector of all ISO 3 letter country codes for african countries
 # can use rnaturalearth to get
@@ -20,4 +21,4 @@ afcountries$iso3c[afcountries$iso3c=='SDS'] <- 'SSD' #replace south sudan code f
 # why do I have solomon islands in africa ? think should be somaliland, internationally considered part of somalia
 afcountries <- afcountries[afcountries$iso3c != 'SOL',] #remove somaliland code not in gadm
 
-usethis::use_data("afcountries")
+usethis::use_data(afcountries)

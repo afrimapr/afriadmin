@@ -11,6 +11,8 @@ hdxlive(
   colr_hdx = rgb(0, 0, 1, alpha = 0.4),
   colr_gadm = rgb(1, 0, 0, alpha = 0.4),
   lwd = 2,
+  legend = TRUE,
+  add = FALSE,
   alpha = 0.5,
   plot = "compare_sf"
 )
@@ -25,6 +27,10 @@ hdxlive(
 \item{colr_gadm}{colour for gadm boundaries in plots defaults red semi-transparent}
 
 \item{lwd}{line width in plots}
+
+\item{legend}{legend in sf plots TRUE/FALSE}
+
+\item{add}{whether to add sf plot to existing plot}
 
 \item{alpha}{transparency in mapview plots}
 

@@ -3,9 +3,9 @@ african administrative boundaries
 
 To make administrative boundary polygons for Africa easily accessible from R.
 
-A part of the afrimapr project.
+A part of the [afrimapr](www.afrimapr.org) project.
 
-In early development, contact Andy South with questions.
+In early development, will change, contact Andy South with questions.
 
 
 There are various sources of administrative boundaries available on the web, and existing R packages for accessing them.

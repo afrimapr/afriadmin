@@ -1,0 +1,144 @@
+---
+title: "afriadmin-animate"
+output: rmarkdown::html_vignette
+#output: rmarkdown::pdf_document
+vignette: >
+  %\VignetteIndexEntry{afriadmin-animate}
+%\VignetteEngine{knitr::rmarkdown}
+%\VignetteEncoding{UTF-8}
+---
+
+
+```{r, include = FALSE}
+
+#initial creation of this file
+#usethis::use_vignette("afriadmin-animate")
+
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(afriadmin)
+```
+
+```{r atlas-gadm, fig.width=8.5, fig.height=8.5 }
+
+path <- system.file(package="afriadmin",paste0("external/hdxlive/"))
+
+#vector of iso3c codes with hdx live boundaries given by the folder list
+v_iso3c <- list.files(path)
+
+#Somalia SOM seems to have level2 but not level 0 or 1 in gadm
+#COM comoros only has level 1 for gadm
+#miss out these for now
+v_iso3c <- v_iso3c[ -which(v_iso3c%in% c("COM","SOM"))]
+
+
+
+# create an animation to contain all African countries
+# probably best not here, but good place to start it
+
+library(animation)
+
+ani.record(reset = TRUE)  # clear history before recording
+
+for(countrynum in 1:length(v_iso3c))
+{
+  iso3c <- v_iso3c[countrynum]
+  name <- iso2country(iso3c)
+
+  #gadm max level
+  maxlevel <- maxadmin(iso3c, datasource='gadm')
+
+  #cat(name," ",iso3c," levels=",maxlevel,"\n")
+
+  for(level in 1:maxlevel)
+  {
+    #note the legend doesn't display text in the animation
+    hdxlive(country=name, level=level, plot='compare_sf', legend=FALSE)
+    ani.record()  # record the current frame
+  }
+}
+
+## now we can replay it, with a pause between frames
+oopts = ani.options(interval = 2) #interval 3 gave error on im.convert that needed to be factor of 100
+ani.replay()
+
+## or export the animation to an HTML page
+saveHTML(ani.replay(), img.name = "hdx-gadm")
+# this is temperamental, sometimes works
+# look online how best to do
+v_images <- list.files("images//")
+setwd('vignettes//images')
+im.convert(v_images, output = "animation-hdx-compare-slow.gif")
+
+
+
+#TRY animation similar to above but gradually filling in Africa
+library(animation)
+
+ani.record(reset = TRUE)  # clear history before recording
+
+#plot Africa outline as canvas to add countries to
+#problem with bbox too small
+#plot(sf::st_geometry(sf_af_gadm0), reset=FALSE, border='grey',lwd=2)
+#just to force resetting bbox
+#sfsimp2 <- st_simplify(sf_af_gadm0, preserveTopology = TRUE, dTolerance = 0.1)
+plot(sf::st_geometry(sfsimp2), reset=FALSE, border='grey',lwd=2)
+
+ani.record()  # record the current frame
+
+for(countrynum in 1:length(v_iso3c))
+{
+  iso3c <- v_iso3c[countrynum]
+  name <- iso2country(iso3c)
+
+  #gadm max level
+  #maxlevel <- maxadmin(iso3c, datasource='gadm')
+
+  #cat(name," ",iso3c," levels=",maxlevel,"\n")
+
+  #add <- ifelse(countrynum==1,FALSE,TRUE)
+  #because I plot africa countries first don't need line above
+  add <- TRUE
+
+  #for(level in 1:maxlevel)
+  #{
+  #note the legend doesn't display text in the animation
+  hdxlive(country=name, level=2, plot='sf', colr_hdx='darkorange', legend=FALSE, add=add, lwd=1)
+  ani.record()  # record the current frame
+  #}
+}
+
+## now we can replay it, with an appropriate pause between frames
+oopts = ani.options(interval = 0.5)
+ani.replay()
+
+## or export the animation to an HTML page
+saveHTML(ani.replay(), img.name = "allafrica-hdx")
+# this is temperamental, sometimes works
+# look online how best to do
+v_images <- list.files("images//")
+
+#PROBLEM that this gives wrong order due to alphabetic sorting 1,10,2 etc.
+# split between the part that comes before the numerics and the "1.img" etc.--adjust appropriately
+split <- strsplit(v_images, "allafrica-hdx")
+# strip the "1.png" etc such that only the numeric part is left
+# turn the characters in numeric
+split <- as.numeric(sapply(split, function(x) x <- sub(".png", "", x[2])))
+# not you can sort, by using order, that gives the original filenames, ordered on the numeric part of the filename
+v_images_ord <- v_images[order(split)]
+
+im.convert(v_images_ord, output = "animation-allafrica-hdx.gif")
+
+im.convert(paste0("images//",v_images_ord), output = "animation-allafrica-hdx.gif")
+
+
+
+
+
+
+```

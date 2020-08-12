@@ -43,24 +43,31 @@ library(afriadmin)
 #miss out these for now
 v_iso3c <- v_iso3c[ -which(v_iso3c%in% c("COM","SOM"))]
 
+
 for(countrynum in 1:length(v_iso3c))
 {
-  
   iso3c <- v_iso3c[countrynum]  
   name <- iso2country(iso3c)
   
-  #this is gadm max level
+  #gadm max level
   maxlevel <- maxadmin(iso3c, datasource='gadm')
 
   #cat(name," ",iso3c," levels=",maxlevel,"\n")
   
   for(level in 1:maxlevel) 
   {
-    hdxlive(country=name, level=level, plot='compare_sf')    
+    hdxlive(country=name, level=level, plot='compare_sf') 
+    # would be good to get mapview plots in a html doc, but the below didn't seem to work
+    #hdxlive(country=name, level=level, plot='compare_mapview') 
   }
-
   
 }
+
+
+
+
+
+
 
 
 ```

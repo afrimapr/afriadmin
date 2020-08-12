@@ -12,7 +12,9 @@ There are various sources of administrative boundaries available on the web, and
 
 This package will improve access to boundaries for Africa.
 
-It will start by giving access to African admin boundaries at all levels from [gadm.org](https://gadm.org/) (probably the most comprehensive current source of global admin boundaries, if not the most up-to-date).
+It started by looking at African admin boundaries at all levels from [gadm.org](https://gadm.org/).
+
+Next step is to look at [geoboundaries](https://www.geoboundaries.org/) which seem to be more current and comprehensive - via [rgeoboundaries](https://dickoa.gitlab.io/rgeoboundaries/).
 
 As a first step I've saved all the full resolution gadm files (~ 88MB) in the package to save having to download them each time. Later we may choose to save just lower resolution versions. [CRAN policy](https://cran.r-project.org/web/packages/policies.html) "As a general rule, neither data nor documentation should exceed 5MB ... Where a large amount of data is required (even after compression), consideration should be given to a separate data-only package which can be updated only rarely".
 This is also just a temporary solution, given that the GADM licence conditions indicate that they cannot be re-distributed without permission.

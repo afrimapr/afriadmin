@@ -64,6 +64,9 @@ sfall <- alllevels("angola")
 
 ### Use cases
 
+A. I'm a developer in country X, I want to know what options I have for obtaining boundary data at different administrative levels for my country.
+
+
 1. Single country maps.
 We want to target in-country use. People in Africa making maps of Africa. Maybe there will be a greater utility for tools that make it easy to make maps of a single country rather than of multiple countries ? 
 

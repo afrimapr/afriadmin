@@ -27,5 +27,6 @@ Suggests:
     GADMTools,
     rhdx,
     tmap,
-    geojsonsf
+    geojsonsf,
+    raster
 VignetteBuilder: knitr

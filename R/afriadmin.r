@@ -82,13 +82,15 @@ afriadmin <- function(country,
 
   else if (datasource == 'gadm')
   {
-    #when I had data saved in the package
-    #GADM_SF_URL  = "https://biogeo.ucdavis.edu/data/gadm3.6/Rsf/gadm36_"
-    path <- system.file(package="afriadmin","/external")
+    # #when I had data saved in the package
+    # path <- system.file(package="afriadmin","/external")
+    # filename <- paste0(iso3c,'_adm',level,'.sf.rds')
+    # sf1 <- readRDS(file.path(path, filename))
 
-    filename <- paste0(iso3c,'_adm',level,'.sf.rds')
+    # option to set path= to save downloaded file
+    # TODO look at caching option similar to what rgeoboundaries does
+    sf1 <- raster::getData('GADM', country=country, level=level, download=TRUE, version=3.6, type='sf')
 
-    sf1 <- readRDS(file.path(path, filename))
   }
 
 

@@ -23,7 +23,7 @@ hdxadmin <- function(country,
 
 
     if (!requireNamespace("rhdx", quietly = TRUE)) {
-        stop("Package \"rhdx\" needed for this function to work. Please install it from github.",
+        stop("Package \"rhdx\" needed. You can install it by : remotes::install_gitlab(\"dickoa/rhdx\")",
              call. = FALSE)
     }
 

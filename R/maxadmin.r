@@ -2,6 +2,8 @@
 #'
 #' initialy gadm but could be other sources too
 #'
+#' #todo change this to work on downloads (or save a table)
+#' #todo add geoboundaries option
 #' #todo vectorise
 #'
 #' @param country a character vector of country names
@@ -17,6 +19,8 @@
 
 maxadmin <- function(country,
                      datasource = 'gadm') {
+
+  #https://www.geoboundaries.org/data/geoBoundaries-3_0_0/geoBoundaries-3_0_0.csv
 
   path <- system.file(package="afriadmin","/external")
 

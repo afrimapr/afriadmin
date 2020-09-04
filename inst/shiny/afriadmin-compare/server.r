@@ -40,44 +40,16 @@ function(input, output) {
   output$serve_map <- renderLeaflet({
 
 
-    sf1 <- afriadmin::afriadmin(input$country,
-                                     datasource='geoboundaries',
-                                     level = input$adm_lvl,
-                                     plot=FALSE )
-
-    sf2 <- afriadmin::afriadmin(input$country,
-                                datasource='gadm',
-                                level = input$adm_lvl,
-                                plot=FALSE )
+    mapplot <- compareadmin(input$country,
+                            level=input$adm_lvl)
 
 
-    # this may have been an issue with GADM data
-    # unfortunately names of admin units are not consistent
-    # can be NAME_[level] #e.g. for Angola
-    # or shapeName #e.g. for Rwanda
-    # maybe submit as an issue to geoboundaries
-    # or write some code for afriadmin or rgeoboundaries to convert, e.g. add shapeName to all if not already present
 
-    zcol1 <- paste0("NAME_", input$adm_lvl)
-    if (!zcol1 %in% names(sf1)) zcol1 <- "shapeName"
-
-    mapplot1 <- mapview::mapview(sf1, zcol=zcol1)
-
-
-    zcol2 <- paste0("NAME_", input$adm_lvl)
-    if (!zcol2 %in% names(sf2)) zcol2 <- "shapeName"
-
-    mapplot2 <- mapview::mapview(sf2, zcol=zcol2)
-
-
+    #creating side-by-side slider view
     #Warning: option 'fgb' requires GDAL >= 3.1.0! Your version is 3.0.4. Setting fgb = FALSE
     #Warning: Error in value[[3L]]: Couldn't normalize path in `addResourcePath`, with arguments: `prefix` = 'PopupTable-0.0.1'; `directoryPath` = ''
     # but did work from console
-
-    #creating side-by-side slider view
-    mapplot <- mapplot1 | mapplot2
-
-    #maybe it would be better to offer static comparison view
+    #mapplot <- mapplot1 | mapplot2
 
 
     # to retain zoom if only types have been changed

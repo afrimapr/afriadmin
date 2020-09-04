@@ -18,6 +18,8 @@ integer vector of max admin levels
 initialy gadm but could be other sources too
 }
 \details{
+#todo change this to work on downloads (or save a table)
+#todo add geoboundaries option
 #todo vectorise
 }
 \examples{

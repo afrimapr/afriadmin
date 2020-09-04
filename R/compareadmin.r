@@ -61,10 +61,10 @@ compareadmin <- function(country,
                    plot = FALSE )
 
 
-  zcol1 <- paste0("NAME_", input$adm_lvl)
+  zcol1 <- paste0("NAME_", level[1])
   if (!zcol1 %in% names(sf1)) zcol1 <- "shapeName"
 
-  zcol2 <- paste0("NAME_", input$adm_lvl)
+  zcol2 <- paste0("NAME_", level[1])
   if (!zcol2 %in% names(sf2)) zcol2 <- "shapeName"
 
   # to set length of colour palette to length of data by interpolation partly to avoid warnings from mapview
@@ -79,7 +79,7 @@ compareadmin <- function(country,
   {
 
      mapplot <- mapview::mapview(sf1,
-                                 #zcol=zcol1,
+                                 zcol=zcol1,
                                  #label=paste(sf1[[zcol1]],sf1[[labcol1]]),
                                  #cex=plotcex[1],
                                  color = colors[1],
@@ -89,12 +89,13 @@ compareadmin <- function(country,
                                  alpha.regions = alpha.regions[1],
                                  alpha = alpha[1],
                                  layer.name=layer.names[[1]],
+                                 legend.pos = 'topleft', #failed to try to put legends on separate sides
                                  legend=plotlegend
                                  #map.types=map.types
                                  )
 
      mapplot <- mapplot + mapview::mapview(sf2,
-                                           #zcol=zcol2,
+                                           zcol=zcol2,
                                            #label=paste(sf2[[zcol2]],sf2[[labcol2]]),
                                            #cex=plotcex[2],
                                            color = colors[2],

@@ -19,6 +19,7 @@
 #' @param version for geoboundaries defaults to the most recent version of geoBoundaries available.
 #'  The geoboundaries version requested, with underscores. For example, 3_0_0 would return data
 #'  from version 3.0.0 of geoBoundaries.
+#' @param path where to save downloaded data for gadm, defaults to tempdir()
 #' @param quiet for geoboundaries, if TRUE no message while downloading and reading the data. Default to FALSE
 #' @param plot option to display map 'mapview' for interactive, 'sf' for static
 #'
@@ -35,6 +36,7 @@ afriadmin <- function(country,
                       datasource = 'geoboundaries',
                       type = 'simple',
                       version = NULL,
+                      path = tempdir(),
                       quiet = FALSE,
                       plot = 'mapview') {
 
@@ -89,7 +91,7 @@ afriadmin <- function(country,
 
     # option to set path= to save downloaded file
     # TODO look at caching option similar to what rgeoboundaries does
-    sf1 <- raster::getData('GADM', country=country, level=level, download=TRUE, version=3.6, type='sf')
+    sf1 <- raster::getData('GADM', country=country, level=level, path=path, download=TRUE, type='sf') #, version=3.6
 
   }
 

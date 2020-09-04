@@ -12,7 +12,7 @@
 #' returns admin polygons for specified countries and optionally plots map
 #'
 #' @param country a character vector of country names or iso3c character codes.
-#' @param datasource data source, initial default 'gadm'
+#' @param datasource data source, 'geoboundaries' or 'gadm'
 #' @param level which admin level to return
 #' @param type for geoboundaries, boundary type defaults to 'simple' One of 'HPSCU', 'HPSCGS', 'SSCGS', 'SSCU', or 'precise' 'simple' 'precise standard' 'simple standard'
 #'  Determines the type of boundary link you receive. More on details

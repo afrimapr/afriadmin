@@ -1,6 +1,9 @@
-#afrihealthsites/healthsites_viewer2/server.r
-# keeping this very simple partly so it can be used as a template by other (maybe new) R users
+# afriadmin/afriadmin-compare/server.r
+# to compare different admin boundaries for the same country (diff. sources and resolutions)
 
+# initially copied from afrihealthsites/healthsites_viewer2
+
+# TODO could add mapshaper to be able to simplify boundaries on the fly
 
 cran_packages <- c("leaflet","remotes")
 lapply(cran_packages, function(x) if(!require(x,character.only = TRUE)) install.packages(x))
@@ -8,15 +11,16 @@ lapply(cran_packages, function(x) if(!require(x,character.only = TRUE)) install.
 
 library(remotes)
 library(leaflet)
-library(ggplot2)
-library(patchwork) #for combining ggplots
+# library(ggplot2)
+# library(patchwork) #for combining ggplots
 
-if(!require(afrihealthsites)){
-  remotes::install_github("afrimapr/afrihealthsites")
+if(!require(afriadmin)){
+  remotes::install_github("afrimapr/afriadmin")
 }
 
-library(afrihealthsites)
-#library(mapview)
+library(afriadmin)
+library(mapview) #otherwise | operator doesn't work
+#mapviewOptions(fgb = FALSE)
 
 
 #global variables
@@ -33,21 +37,54 @@ function(input, output) {
 
   ######################################
   # mapview interactive leaflet map plot
-  output$serve_healthsites_map <- renderLeaflet({
+  output$serve_map <- renderLeaflet({
 
-    mapplot <- afrihealthsites::compare_hs_sources(input$country,
-                                                   datasources=c('healthsites','who'),
-                                                   plot='mapview',
-                                                   plotshow=FALSE,
-                                                   hs_amenity=input$hs_amenity,
-                                                   type_column = input$who_type_option, #allows for 9 broad cats
-                                                   who_type=input$selected_who_cats)
+
+    sf1 <- afriadmin::afriadmin(input$country,
+                                     datasource='geoboundaries',
+                                     level = input$adm_lvl,
+                                     plot=FALSE )
+
+    sf2 <- afriadmin::afriadmin(input$country,
+                                datasource='gadm',
+                                level = input$adm_lvl,
+                                plot=FALSE )
+
+
+    # this may have been an issue with GADM data
+    # unfortunately names of admin units are not consistent
+    # can be NAME_[level] #e.g. for Angola
+    # or shapeName #e.g. for Rwanda
+    # maybe submit as an issue to geoboundaries
+    # or write some code for afriadmin or rgeoboundaries to convert, e.g. add shapeName to all if not already present
+
+    zcol1 <- paste0("NAME_", input$adm_lvl)
+    if (!zcol1 %in% names(sf1)) zcol1 <- "shapeName"
+
+    mapplot1 <- mapview::mapview(sf1, zcol=zcol1)
+
+
+    zcol2 <- paste0("NAME_", input$adm_lvl)
+    if (!zcol2 %in% names(sf2)) zcol2 <- "shapeName"
+
+    mapplot2 <- mapview::mapview(sf2, zcol=zcol2)
+
+
+    #Warning: option 'fgb' requires GDAL >= 3.1.0! Your version is 3.0.4. Setting fgb = FALSE
+    #Warning: Error in value[[3L]]: Couldn't normalize path in `addResourcePath`, with arguments: `prefix` = 'PopupTable-0.0.1'; `directoryPath` = ''
+    # but did work from console
+
+    #creating side-by-side slider view
+    mapplot <- mapplot1 | mapplot2
+
+    #maybe it would be better to offer static comparison view
+
 
     # to retain zoom if only types have been changed
-    if (!is.null(zoom_view))
-    {
-      mapplot@map <- leaflet::fitBounds(mapplot@map, lng1=zoom_view$west, lat1=zoom_view$south, lng2=zoom_view$east, lat2=zoom_view$north)
-    }
+    # if (!is.null(zoom_view))
+    # {
+    #   mapplot@map <- leaflet::fitBounds(mapplot@map, lng1=zoom_view$west, lat1=zoom_view$south, lng2=zoom_view$east, lat2=zoom_view$north)
+    # }
 
 
     #important that this returns the @map bit

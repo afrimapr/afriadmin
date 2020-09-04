@@ -108,9 +108,27 @@ compareadmin <- function(country,
                                            legend=plotlegend
                                            #map.types=map.types
                                            )
+
+     if (plotshow) print(mapplot)
+
+     invisible(mapplot)
+
+  } else if (plot == 'namestable')
+  {
+     #maxrows <- max(nrow(sf1), nrow(sf2))
+
+     #list first to cope with rows of diff length
+     #sort to facilitate comparison
+     dfnames <- list(sort(sf1[[zcol1]]),
+                     sort(sf2[[zcol2]]))
+
+     #converts list to df and fills with NA
+     dfnames <- data.frame(lapply(dfnames, "length<-", max(lengths(dfnames))))
+
+     #set names of columns to the datasources
+     names(dfnames) <- datasource
+     return(dfnames)
   }
 
-  if (plotshow) print(mapplot)
 
-  invisible(mapplot)
 }

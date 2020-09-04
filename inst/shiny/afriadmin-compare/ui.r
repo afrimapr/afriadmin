@@ -69,14 +69,15 @@ fluidPage(
   mainPanel(
 
     #when just had the map
-    leafletOutput("serve_map", height=1000)
+    #leafletOutput("serve_map", height=1000)
 
     #tabs
-    # tabsetPanel(type = "tabs",
-    #             tabPanel("map", leafletOutput("serve_healthsites_map", height=800)),
-    #             tabPanel("facility types", plotOutput("plot_fac_types", height=600)),
-    #             tabPanel("healthsites data", DT::dataTableOutput("table_raw_hs")),
-    #             tabPanel("WHO data", DT::dataTableOutput("table_raw_who"))
+    tabsetPanel(type = "tabs",
+                tabPanel("map", leafletOutput("serve_map", height=800)),
+                tabPanel("names", DT::dataTableOutput("table_names")))
+                #tabPanel("facility types", plotOutput("plot_fac_types", height=600)),
+                #tabPanel("healthsites data", DT::dataTableOutput("table_raw_hs")),
+
     )
   )
 )

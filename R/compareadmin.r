@@ -20,6 +20,8 @@
 #' @examples
 #'
 #' compareadmin("togo", level=2)
+#' compareadmin("togo", level=2, datasource=c('geoboundaries','geoboundaries'), type=c('sscu','hpscu') )
+#'
 #'
 #' @return \code{sf}
 #' @export
@@ -43,6 +45,8 @@ compareadmin <- function(country,
 
   #if just one admin level is specified replicate it in a vector
   if (length(level) == 1) level <- c(level,level)
+  if (length(datasource) == 1) datasource <- c(datasource,datasource)
+
 
   sf1 <- afriadmin(country,
                    level = level[1],
@@ -73,7 +77,12 @@ compareadmin <- function(country,
   col.regions[[2]] <- grDevices::colorRampPalette(col.regions[[2]])
 
   #initially set layer names from datasources
-  if (is.null(layer.names)) layer.names <- datasource
+  if (is.null(layer.names))
+  {
+     layer.names <- datasource
+     #cool bit of code to only add type to label for geoboundaries
+     layer.names <- ifelse(datasource=="geoboundaries", paste(datasource,type), datasource)
+  }
 
   if (plot == 'mapview')
   {

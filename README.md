@@ -7,30 +7,25 @@ A part of the [afrimapr](www.afrimapr.org) project.
 
 In early development, will change, contact Andy South with questions.
 
+There are various sources of sub-national administrative boundaries available on the web, and existing R packages for accessing them.
 
-There are various sources of administrative boundaries available on the web, and existing R packages for accessing them.
+[geoboundaries](https://www.geoboundaries.org/) via [rgeoboundaries](https://dickoa.gitlab.io/rgeoboundaries/) seems to be the current best source.
 
-This package will improve access to boundaries for Africa.
+[gadm.org](https://gadm.org/) is comprehensive and easy to access, but seems less up to date and data sourcing, curation and licensing are not as clear.
 
-It started by looking at African admin boundaries at all levels from [gadm.org](https://gadm.org/).
+[HDX](https://data.humdata.org/) (Humanitarian Data eXchange), has some more up-to-date boundaries but currently are trickier to reach for all countries in an automated way. HDX developers have told us that should be improved in coming months.
 
-Next step is to look at [geoboundaries](https://www.geoboundaries.org/) which seem to be more current and comprehensive - via [rgeoboundaries](https://dickoa.gitlab.io/rgeoboundaries/).
-
-As a first step I've saved all the full resolution gadm files (~ 88MB) in the package to save having to download them each time. Later we may choose to save just lower resolution versions. [CRAN policy](https://cran.r-project.org/web/packages/policies.html) "As a general rule, neither data nor documentation should exceed 5MB ... Where a large amount of data is required (even after compression), consideration should be given to a separate data-only package which can be updated only rarely".
-This is also just a temporary solution, given that the GADM licence conditions indicate that they cannot be re-distributed without permission.
-
-I'll develop interface functions that are intended to stay similar, what is happening behind may change. 
-
-I'm also looking into accessing boundaries from [HDX](https://data.humdata.org/) (Humanitarian Data eXchange), which are more up-to-date but currently are trickier to reach for all countries in an automated way.
+### online user interface prototype
+[https://andysouth.shinyapps.io/afriadmin-compare/](https://andysouth.shinyapps.io/afriadmin-compare/)
 
 
 ### Install afriadmin
 
 Install the development version from GitHub using [devtools](https://github.com/hadley/devtools).
 
-    # install.packages("devtools") # if not already installed
+    # install.packages("remotes") # if not already installed
     
-    devtools::install_github("afrimapr/afriadmin")
+    remotes::install_github("afrimapr/afriadmin")
 
 
 ### First Usage
@@ -42,12 +37,19 @@ library(sf)
 ## single admin levels
 
 # with interactive map
-sfken <- afriadmin("kenya",level='max', plot='mapview')
+sftgo <- afriadmin("togo", level=2, plot='mapview')
 
 # static map
-sfeth <- afriadmin("ethiopia",level='max', plot='sf')
+sfeth <- afriadmin("ethiopia",level=4, plot='sf')
 
-afriadmin("Angola",level=2)
+# comparing boundaries from different sources
+
+
+# default compares geoboundaries and gadm
+compareadmin("togo", level=2, datasource=c('geoboundaries','gadm'))
+
+# option to compare different geobounadaries types
+compareadmin("togo", level=2, datasource=c('geoboundaries','geoboundaries'), type=c('sscu','hpscu') )
 
 
 ## multiple admin levels - experimental

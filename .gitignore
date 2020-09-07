@@ -31,6 +31,9 @@ vignettes/*.pdf
 *_cache/
 /cache/
 
+#shinyapps.io folders
+*rsconnect/
+
 # Temporary files created by R markdown
 *.utf8.md
 *.knit.md

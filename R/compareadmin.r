@@ -21,6 +21,10 @@
 #'
 #' compareadmin("togo", level=2)
 #' compareadmin("togo", level=2, datasource=c('geoboundaries','geoboundaries'), type=c('sscu','hpscu') )
+#' #checking out problems with char encoding from rgeoboundaries
+#' #e.g. togo admin2 accents malformed for sscu not hpscu
+#' sfprecise <- rgeoboundaries::geoboundaries("togo", adm_lvl="adm2", type="hpscu")
+#' sfsimple <- rgeoboundaries::geoboundaries("togo", adm_lvl="adm2", type="sscu")
 #'
 #'
 #' @return \code{sf}
@@ -46,7 +50,7 @@ compareadmin <- function(country,
   #if just one admin level is specified replicate it in a vector
   if (length(level) == 1) level <- c(level,level)
   if (length(datasource) == 1) datasource <- c(datasource,datasource)
-
+  if (length(type) == 1) type <- c(type,type)
 
   sf1 <- afriadmin(country,
                    level = level[1],

@@ -18,12 +18,13 @@ if(!require(afriadmin)){
 library(afriadmin)
 # library(mapview)
 
+data(afcountries)
 
 fluidPage(
 
   headerPanel('afrimapr admin boundaries comparison tool'),
 
-  p("allows viewing of boundaries from different sources and/or different resolutions"),
+  p("compare geoboundaries and GADM, may take a few seconds to download selected data"),
 
   sidebarLayout(
 
@@ -45,10 +46,13 @@ fluidPage(
     selectInput('country', 'Country', choices = sort(afcountries$name[!afcountries$name=="Western Sahara"]),
                 size=7, selectize=FALSE, multiple=TRUE, selected="Angola"),
 
-
     #admin level
     selectInput("adm_lvl", label = "admin level",
-                choices = c(1:4), #list("1" = "Fa", "reclassified to 9" = "facility_type_9"),
+                choices = c(1:4),
+                selected = 1),
+
+    selectInput("type", label = "geoboundaries type",
+                choices = c("simple (sscu)"="sscu", "precise (hpscu)"="hpscu", "simple standard (sscgs)"="sscgs", "precise standard (hpscgs)"="hpscgs"),
                 selected = 1),
 
     # dynamic who category selection

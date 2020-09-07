@@ -43,6 +43,7 @@ function(input, output) {
     mapplot <- compareadmin(input$country,
                             level=input$adm_lvl,
                             datasource = c('geoboundaries','gadm'),
+                            type = c(input$type, NULL),
                             plot = 'mapview',
                             plotshow = FALSE
                             )
@@ -115,7 +116,8 @@ function(input, output) {
     #want to avoid downloading the data again,
     #but hopefully it will have been cached locally so won't download again
 
-    dfnames <- compareadmin(input$country, level=input$adm_lvl, plot='namestable')
+    #beware this just uses single type so far
+    dfnames <- compareadmin(input$country, level=input$adm_lvl, type=input$type, plot='namestable')
 
 
     DT::datatable(dfnames, options = list(pageLength = 50))

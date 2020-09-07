@@ -28,5 +28,6 @@ Suggests:
     rhdx,
     tmap,
     geojsonsf,
-    raster
+    raster,
+    rgeoboundaries
 VignetteBuilder: knitr

@@ -19,6 +19,7 @@ if(!require(afriadmin)){
 }
 
 library(afriadmin)
+library(rgeoboundaries) #think maybe this shouldn't be needed but seems to cause fail on shinyapps
 library(mapview) #otherwise | operator doesn't work
 #mapviewOptions(fgb = FALSE)
 

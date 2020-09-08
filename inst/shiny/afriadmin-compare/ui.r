@@ -22,9 +22,13 @@ data(afcountries)
 
 fluidPage(
 
-  headerPanel('afrimapr admin boundaries comparison tool'),
+  #headerPanel('afrimapr admin boundaries comparison tool'),
+  headerPanel(p( a("afrimapr", href="http://www.afrimapr.org", target="_blank"),
+                 'admin boundaries comparison app')),
 
-  p("compare geoboundaries and GADM, may take a few seconds to download selected data"),
+  p("compare", a("geoBoundaries", href="https://www.geoboundaries.org/", target="_blank"),
+    "&",       a("GADM", href="https://www.gadm.org/", target="_blank") ,
+    "- may take a few seconds to download selected data"),
 
   sidebarLayout(
 
@@ -36,9 +40,6 @@ fluidPage(
     #               a("KEMRI Wellcome", href="https://www.nature.com/articles/s41597-019-0142-2", target="_blank"),
     #               " / ",
     #               a("WHO", href="https://www.who.int/malaria/areas/surveillance/public-sector-health-facilities-ss-africa/en/", target="_blank")),
-
-    p("by ", a("afrimapr", href="http://www.afrimapr.org", target="_blank"),
-      ": creating R building-blocks to ease use of open health data in Africa"),
 
 
     #selectInput('country', 'Country', afcountries$name, size=10, selectize=FALSE, multiple=TRUE, selected="Angola"),
@@ -58,10 +59,14 @@ fluidPage(
     # dynamic who category selection
     #uiOutput("select_who_cat"),
 
-    p("active development Sep 2020, v0.1\n"),
+    p("active development Sep 2020, v0.1 ",
+      "Open source ", a("R code", href="https://github.com/afrimapr/afriadmin", target="_blank")),
 
     #p("Contact : ", a("@southmapr", href="https://twitter.com/southmapr", target="_blank")),
-    p("Open source ", a("R code", href="https://github.com/afrimapr/afriadmin", target="_blank")),
+    #p("Open source ", a("R code", href="https://github.com/afrimapr/afriadmin", target="_blank")),
+
+    p("by ", a("afrimapr", href="http://www.afrimapr.org", target="_blank"),
+      ": creating R building-blocks to ease use of open health data in Africa"),
 
     p("Input and suggestions ", a("welcome", href="https://github.com/afrimapr/suggestions_and_requests", target="_blank")),
     #  "Contact : ", a("@southmapr", href="https://twitter.com/southmapr", target="_blank")),

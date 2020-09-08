@@ -26,10 +26,10 @@ library(mapview) #otherwise | operator doesn't work
 
 #global variables
 
-# to try to allow retaining of map zoom, when type checkboxes are selected
+# to try to allow retaining of map zoom, when selections are changed
 zoom_view <- NULL
 # when country is changed I want whole map to change
-# but when input$hs_amenity or input$selected_who_cats are changed I want to retain zoom
+# but with other options (e.g. boundary type) I want to retain zoom
 # perhaps can just reset zoomed view to NULL when country is changed
 
 
@@ -60,10 +60,10 @@ function(input, output) {
 
 
     # to retain zoom if only types have been changed
-    # if (!is.null(zoom_view))
-    # {
-    #   mapplot@map <- leaflet::fitBounds(mapplot@map, lng1=zoom_view$west, lat1=zoom_view$south, lng2=zoom_view$east, lat2=zoom_view$north)
-    # }
+    if (!is.null(zoom_view))
+    {
+      mapplot@map <- leaflet::fitBounds(mapplot@map, lng1=zoom_view$west, lat1=zoom_view$south, lng2=zoom_view$east, lat2=zoom_view$north)
+    }
 
 
     #important that this returns the @map bit
@@ -74,12 +74,12 @@ function(input, output) {
 
   #########################################################################
   # trying to detect map zoom as a start to keeping it when options changed
-  observeEvent(input$serve_healthsites_map_bounds, {
+  observeEvent(input$serve_map_bounds, {
 
     #print(input$serve_healthsites_map_bounds)
 
     #save to a global object so can reset to it
-    zoom_view <<- input$serve_healthsites_map_bounds
+    zoom_view <<- input$serve_map_bounds
   })
 
   ####################################################################

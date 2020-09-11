@@ -53,9 +53,11 @@ fluidPage(
                 size=7, selectize=FALSE, multiple=TRUE, selected="Angola"),
 
     #admin level
-    selectInput("adm_lvl", label = "admin level",
-                choices = c(1:4),
-                selected = 1),
+    uiOutput("select_lvl"),
+    # selectInput("adm_lvl", label = "admin level",
+    #             choices = c(1:4),
+    #             selected = 1),
+
 
     selectInput("type", label = "geoboundaries type",
                 choices = c("simple (sscu)"="sscu", "precise (hpscu)"="hpscu", "simple standard (sscgs)"="sscgs", "precise standard (hpscgs)"="hpscgs"),

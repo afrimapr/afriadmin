@@ -18,10 +18,13 @@ zoom_view <- NULL
 # Define a server for the Shiny app
 function(input, output) {
 
+
   ######################################
   # mapview interactive leaflet map plot
   output$serve_map <- renderLeaflet({
 
+    #avoid problems at start
+    if (length(input$adm_lvl) == 0) return(NULL)
 
     mapplot <- compareadmin(input$country,
                             level=input$adm_lvl,
@@ -30,8 +33,6 @@ function(input, output) {
                             plot = 'mapview',
                             plotshow = FALSE
                             )
-
-
 
     #creating side-by-side slider view
     #found that this error was known to others & should be fixed by dev version of mapview
@@ -53,6 +54,23 @@ function(input, output) {
     mapplot@map
 
     })
+
+  ################################################################################
+  # dynamic selectable list of admin levels based on country
+  output$select_lvl <- renderUI({
+
+    # get max for each datasource
+    max_gadm <- afriadmin::maxadmin(input$country, datasource='gadm')
+    max_geob <- afriadmin::maxadmin(input$country, datasource='geoboundaries')
+
+    max_lvl <- max(c(max_gadm,max_geob))
+
+    radioButtons("adm_lvl", label = "admin level",
+                 choices = c(1:max_lvl),
+                 inline = TRUE, #horizontal
+                 selected = 1)
+  })
+
 
   #########################################################################
   # trying to detect map zoom as a start to keeping it when options changed

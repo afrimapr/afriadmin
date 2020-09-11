@@ -5,8 +5,8 @@ account: andysouth
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 2764838
-bundleId: 3614326
+bundleId: 3618604
 url: https://andysouth.shinyapps.io/afriadmin-compare/
-when: 1599727455.75644
+when: 1599823597.07088
 asMultiple: FALSE
 asStatic: FALSE

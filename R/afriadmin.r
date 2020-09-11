@@ -44,22 +44,23 @@ afriadmin <- function(country,
   # check and convert country names to iso codes
   iso3c <- country2iso(country)
 
-  # temporarily commented out max level checking
+
   # find the max admin level available
   # either to check that asked for one is there, or to find max
-  # maxlevel <- maxadmin(country=iso3c, datasource=datasource)
-  #
-  # if (level=='max')
-  # {
-  #   level <- maxlevel
-  #   message("returning max admin level available for ",iso3c,", ",maxlevel)
-  # }
-  # else if (level > maxlevel)
-  # {
-  #   warning("max admin level available for ",iso3c," is ",maxlevel," you requested ",level)
-  #   #maybe do this to return most detailed available
-  #   level <- maxlevel
-  # }
+  maxlevel <- maxadmin(country=iso3c, datasource=datasource)
+
+  if (level=='max')
+  {
+    level <- maxlevel
+    message("returning max admin level available for ",iso3c," from ",datasource,", ",maxlevel)
+  }
+  else if (level > maxlevel)
+  {
+    warning("max admin level available for ",iso3c," from ",datasource," is ",maxlevel," you requested ",level)
+    return(NULL)
+    #maybe do this to return most detailed available
+    #level <- maxlevel
+  }
 
 
   #different datasources

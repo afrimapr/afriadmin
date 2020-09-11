@@ -15,9 +15,14 @@ if(!require(afriadmin)){
   remotes::install_github("afrimapr/afriadmin")
 }
 
-library(afriadmin)
-# library(mapview)
+#IMPORTANT TO INSTALL rgeoboundaries from github rather than gitlab to get it to work on shinyapps
+#remotes::install_github("wmgeolab/rgeoboundaries")
 
+library(afriadmin)
+library(rgeoboundaries) #think maybe this shouldn't be needed but seems to cause fail on shinyapps
+library(mapview) #otherwise | operator doesn't work
+
+#
 data(afcountries)
 
 fluidPage(

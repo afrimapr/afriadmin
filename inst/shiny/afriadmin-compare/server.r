@@ -5,24 +5,6 @@
 
 # TODO could add mapshaper to be able to simplify boundaries on the fly
 
-cran_packages <- c("leaflet","remotes")
-lapply(cran_packages, function(x) if(!require(x,character.only = TRUE)) install.packages(x))
-
-
-library(remotes)
-library(leaflet)
-# library(ggplot2)
-# library(patchwork) #for combining ggplots
-
-if(!require(afriadmin)){
-  remotes::install_github("afrimapr/afriadmin")
-}
-
-library(afriadmin)
-library(rgeoboundaries) #think maybe this shouldn't be needed but seems to cause fail on shinyapps
-library(mapview) #otherwise | operator doesn't work
-#mapviewOptions(fgb = FALSE)
-
 
 #global variables
 

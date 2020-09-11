@@ -14,7 +14,7 @@
 #'
 #'
 #' @param quiet for geoboundaries, if TRUE no message while downloading and reading the data. Default to FALSE
-#' @param plot option to display map 'mapview' for interactive, 'sf' for static
+#' @param plot option to display map 'mapview' for interactive, 'namestable' for a table of names, 'sf' for static
 #'
 #'
 #' @examples
@@ -25,6 +25,11 @@
 #' #e.g. togo admin2 accents malformed for sscu not hpscu
 #' sfprecise <- rgeoboundaries::geoboundaries("togo", adm_lvl="adm2", type="hpscu")
 #' sfsimple <- rgeoboundaries::geoboundaries("togo", adm_lvl="adm2", type="sscu")
+#' #can correct simple version by specifying UTF8 within rgeob code
+#' #sfsutf8 <- sf::st_read(path, quiet = quiet, options = "ENCODING=UTF8")
+#' #but will that break the precise version ?
+#' #yes it did break the precise version
+#' #I should submit issue to the geoboundaries people
 #'
 #'
 #' @return \code{sf}
@@ -69,11 +74,18 @@ compareadmin <- function(country,
                    plot = FALSE )
 
 
-  zcol1 <- paste0("NAME_", level[1])
-  if (!zcol1 %in% names(sf1)) zcol1 <- "shapeName"
+  if (!is.null(sf1))
+  {
+    #set column containing names
+    zcol1 <- paste0("NAME_", level[1])
+    if (!zcol1 %in% names(sf1)) zcol1 <- "shapeName"
+  }
 
-  zcol2 <- paste0("NAME_", level[1])
-  if (!zcol2 %in% names(sf2)) zcol2 <- "shapeName"
+  if (!is.null(sf2))
+  {
+    zcol2 <- paste0("NAME_", level[1])
+    if (!zcol2 %in% names(sf2)) zcol2 <- "shapeName"
+  }
 
   # to set length of colour palette to length of data by interpolation partly to avoid warnings from mapview
   # colorRampPalette() returns a function that accepts the number of categories
@@ -91,36 +103,61 @@ compareadmin <- function(country,
   if (plot == 'mapview')
   {
 
-     mapplot <- mapview::mapview(sf1,
-                                 zcol=zcol1,
-                                 #label=paste(sf1[[zcol1]],sf1[[labcol1]]),
-                                 #cex=plotcex[1],
-                                 color = colors[1],
-                                 lwd = lwds[1],
-                                 #col.regions=col.regions[[1]],
-                                 col.regions=colors[[1]], #try to cheat get this in legend, but low alpha so clear in map
-                                 alpha.regions = alpha.regions[1],
-                                 alpha = alpha[1],
-                                 layer.name=layer.names[[1]],
-                                 legend.pos = 'topleft', #failed to try to put legends on separate sides
-                                 legend=plotlegend
-                                 #map.types=map.types
-                                 )
+    if (!is.null(sf1)) #to cope with if level not available
+    {
+       mapplot <- mapview::mapview(sf1,
+                                   zcol=zcol1,
+                                   #label=paste(sf1[[zcol1]],sf1[[labcol1]]),
+                                   #cex=plotcex[1],
+                                   color = colors[1],
+                                   lwd = lwds[1],
+                                   #col.regions=col.regions[[1]],
+                                   col.regions=colors[[1]], #try to cheat get this in legend, but low alpha so clear in map
+                                   alpha.regions = alpha.regions[1],
+                                   alpha = alpha[1],
+                                   layer.name=layer.names[[1]],
+                                   legend.pos = 'topleft', #failed to try to put legends on separate sides
+                                   legend=plotlegend
+                                   #map.types=map.types
+                                   )
 
-     mapplot <- mapplot + mapview::mapview(sf2,
-                                           zcol=zcol2,
-                                           #label=paste(sf2[[zcol2]],sf2[[labcol2]]),
-                                           #cex=plotcex[2],
-                                           color = colors[2],
-                                           lwd = lwds[2],
-                                           #col.regions=col.regions[[2]],
-                                           col.regions=colors[[2]], #try to cheat get this in legend, but low alpha so clear in map
-                                           alpha.regions = alpha.regions[2],
-                                           alpha = alpha[2],
-                                           layer.name=layer.names[[2]],
-                                           legend=plotlegend
-                                           #map.types=map.types
-                                           )
+       if (!is.null(sf2)) #to cope with if level not available
+       {
+         mapplot <- mapplot + mapview::mapview(sf2,
+                                               zcol=zcol2,
+                                               #label=paste(sf2[[zcol2]],sf2[[labcol2]]),
+                                               #cex=plotcex[2],
+                                               color = colors[2],
+                                               lwd = lwds[2],
+                                               #col.regions=col.regions[[2]],
+                                               col.regions=colors[[2]], #try to cheat get this in legend, but low alpha so clear in map
+                                               alpha.regions = alpha.regions[2],
+                                               alpha = alpha[2],
+                                               layer.name=layer.names[[2]],
+                                               legend=plotlegend
+                                               #map.types=map.types
+         )
+       }
+
+    } else if (!is.null(sf2)) #to cope when level2 but no level 1
+    {
+      mapplot <- mapview::mapview(sf2,
+                                  zcol=zcol2,
+                                  #label=paste(sf2[[zcol2]],sf2[[labcol2]]),
+                                  #cex=plotcex[2],
+                                  color = colors[2],
+                                  lwd = lwds[2],
+                                  #col.regions=col.regions[[2]],
+                                  col.regions=colors[[2]], #try to cheat get this in legend, but low alpha so clear in map
+                                  alpha.regions = alpha.regions[2],
+                                  alpha = alpha[2],
+                                  layer.name=layer.names[[2]],
+                                  legend=plotlegend
+                                  #map.types=map.types
+      )
+    }
+
+
 
      if (plotshow) print(mapplot)
 
@@ -132,14 +169,39 @@ compareadmin <- function(country,
 
      #list first to cope with rows of diff length
      #sort to facilitate comparison
-     dfnames <- list(sort(sf1[[zcol1]]),
-                     sort(sf2[[zcol2]]))
 
-     #converts list to df and fills with NA
-     dfnames <- data.frame(lapply(dfnames, "length<-", max(lengths(dfnames))))
+    if (!is.null(sf1) & !is.null(sf2))
+    {
+      dfnames <- list(sort(sf1[[zcol1]]), sort(sf2[[zcol2]]))
 
-     #set names of columns to the datasources
-     names(dfnames) <- datasource
+      #converts list to df and fills with NA
+      dfnames <- data.frame(lapply(dfnames, "length<-", max(lengths(dfnames))))
+
+      #set names of columns to the datasources
+      names(dfnames) <- datasource
+
+    } else if (!is.null(sf1))
+    {
+      dfnames <- list(sort(sf1[[zcol1]]))
+
+      #converts list to df and fills with NA
+      dfnames <- data.frame(lapply(dfnames, "length<-", max(lengths(dfnames))))
+
+      #set names of columns to the datasources
+      names(dfnames) <- datasource[1]
+
+    } else if (!is.null(sf2))
+    {
+      dfnames <- list(sort(sf2[[zcol2]]))
+
+      #converts list to df and fills with NA
+      dfnames <- data.frame(lapply(dfnames, "length<-", max(lengths(dfnames))))
+
+      #set names of columns to the datasources
+      names(dfnames) <- datasource[2]
+    }
+
+
      return(dfnames)
   }
 

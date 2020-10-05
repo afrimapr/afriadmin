@@ -36,8 +36,8 @@ library(sf)
 
 ## single admin levels
 
-# with interactive map
-sftgo <- afriadmin("togo", level=2, plot='mapview')
+# with interactive map, geoboundaries is default datasource but showing here for info
+sftgo <- afriadmin("togo", level=2, datasource='geoboundaries')
 
 # static map
 sfeth <- afriadmin("ethiopia",level=4, plot='sf')

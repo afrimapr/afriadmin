@@ -18,7 +18,8 @@ Imports:
     sf,
     mapview,
     countrycode,
-    grDevices
+    grDevices,
+    rgeoboundaries    
 Encoding: UTF-8
 LazyData: true    
 RoxygenNote: 7.1.1
@@ -28,6 +29,7 @@ Suggests:
     rhdx,
     tmap,
     geojsonsf,
-    raster,
-    rgeoboundaries
+    raster
+Remotes:
+  dickoa/rgeoboundaries    
 VignetteBuilder: knitr

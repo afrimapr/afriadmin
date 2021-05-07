@@ -31,5 +31,5 @@ Suggests:
     geojsonsf,
     raster
 Remotes:
-  dickoa/rgeoboundaries    
+  andysouth/rgeoboundaries    
 VignetteBuilder: knitr

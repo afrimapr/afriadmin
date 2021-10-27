@@ -19,11 +19,11 @@
 #'
 #' @examples
 #'
-#' hdxlive("angola")
-#' hdxlive('benin',level=2)
-#' hdxlive('zimbabwe',level=2)
+#' #hdxlive("angola")
+#' #hdxlive('benin',level=2)
+#' #hdxlive('zimbabwe',level=2)
 #' #to compare gadm and hdx
-#' hdxlive('malawi',level=2, plot='compare_mapview')
+#' #hdxlive('malawi',level=2, plot='compare_mapview')
 #'
 #' @return not sure yet
 #' @export

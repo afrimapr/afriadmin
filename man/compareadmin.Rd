@@ -39,7 +39,7 @@ from version 3.0.0 of geoBoundaries.}
 
 \item{quiet}{for geoboundaries, if TRUE no message while downloading and reading the data. Default to FALSE}
 
-\item{plot}{option to display map 'mapview' for interactive, 'sf' for static}
+\item{plot}{option to display map 'mapview' for interactive, 'namestable' for a table of names, 'sf' for static}
 }
 \value{
 \code{sf}
@@ -50,5 +50,16 @@ returns a mapview (or potentially later sf plot object), most arguments take a v
 \examples{
 
 compareadmin("togo", level=2)
+compareadmin("togo", level=2, datasource=c('geoboundaries','geoboundaries'), type=c('sscu','hpscu') )
+#checking out problems with char encoding from rgeoboundaries
+#e.g. togo admin2 accents malformed for sscu not hpscu
+sfprecise <- rgeoboundaries::geoboundaries("togo", adm_lvl="adm2", type="hpscu")
+sfsimple <- rgeoboundaries::geoboundaries("togo", adm_lvl="adm2", type="sscu")
+#can correct simple version by specifying UTF8 within rgeob code
+#sfsutf8 <- sf::st_read(path, quiet = quiet, options = "ENCODING=UTF8")
+#but will that break the precise version ?
+#yes it did break the precise version
+#I should submit issue to the geoboundaries people
+
 
 }

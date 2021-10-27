@@ -21,7 +21,7 @@ There are various sources of sub-national administrative boundaries available on
 
 ### Install afriadmin
 
-Install the development version from GitHub using [devtools](https://github.com/hadley/devtools).
+Install the development version from GitHub using remotes.
 
     # install.packages("remotes") # if not already installed
     

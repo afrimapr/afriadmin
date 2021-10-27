@@ -1,12 +1,10 @@
 Package: afriadmin
 Title: African Administrative Boundary Polygons
-Version: 0.0.0.9000
-Date: 2020-02-27
+Version: 0.0.0.9001
+Date: 2021-10-27
 Authors@R: 
     c(
-    person("Andy", "South", email = "southandy@gmail.com", role = c("aut", "cre"),comment = c(ORCID = "0000-0003-4051-6135")),           
-    person("Robin", "Lovelace", email = "rob00x@gmail.com", role = c("aut"), comment = c(ORCID = "0000-0001-5679-6536")),
-    person("Paula", "Moraga", email = "pm865@bath.ac.uk", role = "aut")
+    person("Andy", "South", email = "southandy@gmail.com", role = c("aut", "cre"),comment = c(ORCID = "0000-0003-4051-6135"))
     )
 Description: Will make administrative boundary polygons for Africa easily accessible from R.
 License: GPL (>= 3) | file LICENSE

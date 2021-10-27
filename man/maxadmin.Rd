@@ -4,7 +4,7 @@
 \alias{maxadmin}
 \title{return max admin level for a country}
 \usage{
-maxadmin(country, datasource = "gadm")
+maxadmin(country, datasource = "geoboundaries")
 }
 \arguments{
 \item{country}{a character vector of country names}
@@ -24,6 +24,6 @@ initialy gadm but could be other sources too
 }
 \examples{
 
-maxlevel <- maxadmin("nigeria")
+maxlevel <- maxadmin("nigeria", datasource='geoboundaries')
 
 }

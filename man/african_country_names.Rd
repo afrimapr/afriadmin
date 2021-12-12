@@ -7,8 +7,9 @@
 \title{african country names and iso 3 letter country codes}
 \format{
 \code{dataframe}
-
-An object of class \code{data.frame} with 53 rows and 2 columns.
+}
+\source{
+rnaturalearth
 }
 \usage{
 afcountries
@@ -16,10 +17,4 @@ afcountries
 \description{
 african country names and iso 3 letter country codes
 }
-\section{Slots}{
-
-\describe{
-\item{\code{data}}{dataframe}
-}}
-
 \keyword{datasets}

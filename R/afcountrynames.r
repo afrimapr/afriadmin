@@ -38,8 +38,6 @@ afcountrynames <- function(nameoriso3c = 'name',
   #saved this dataframe in the package
   #usethis::use_data(afcountries)
 
-  data(afcountries)
-
   # #gadm level 2 fails at COM comoros,CPV cape verde, LBY Libya, LSO lesotho, ESH western sahara
   if (isTRUE(filtercountries == 'gadm2'))
      afcountries <- afcountries[(!afcountries$iso3c %in% c('COM','CPV','LBY', 'LSO', 'ESH')),]

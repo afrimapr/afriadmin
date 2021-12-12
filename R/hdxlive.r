@@ -26,6 +26,8 @@
 #' #hdxlive('malawi',level=2, plot='compare_mapview')
 #'
 #' @return not sure yet
+#' @importFrom grDevices rgb
+#' @importFrom graphics title
 #' @export
 #'
 hdxlive <- function(country,

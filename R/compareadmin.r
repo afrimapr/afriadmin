@@ -3,7 +3,6 @@
 #' returns a mapview (or potentially later sf plot object), most arguments take a vector allowing two layers to be specified
 #'
 #' @param country a character vector of country names or iso3c character codes.
-#'
 #' @param datasource c('geoboundaries','gadm')
 #' @param level 1
 #' @param type for geoboundaries, boundary type defaults to 'simple' One of 'HPSCU', 'HPSCGS', 'SSCGS', 'SSCU', or 'precise' 'simple' 'precise standard' 'simple standard'
@@ -11,25 +10,24 @@
 #' @param version for geoboundaries defaults to the most recent version of geoBoundaries available.
 #'  The geoboundaries version requested, with underscores. For example, 3_0_0 would return data
 #'  from version 3.0.0 of geoBoundaries.
-#'
-#'
+#' @param colors for the 2 sources of polygon boundaries default red,blue
+#' @param lwds line widths for the 2 sources of boundaries default 2,2
+#' @param col.regions colour palettes for polygon fills
+#' @param alpha transparency for the two source boundaries default 0.9,0.9
+#' @param alpha.regions transparency for the two source fills default 0.9,0.9
+#' @param layer.names optional names for the two source layers
+#' @param plotlegend whether to add legend
 #' @param quiet for geoboundaries, if TRUE no message while downloading and reading the data. Default to FALSE
 #' @param plot option to display map 'mapview' for interactive, 'namestable' for a table of names, 'sf' for static
-#'
+#' @param plotshow whether to display plot
 #'
 #' @examples
 #'
 #' compareadmin("togo", level=2)
-#' compareadmin("togo", level=2, datasource=c('geoboundaries','geoboundaries'), type=c('sscu','hpscu') )
-#' #checking out problems with char encoding from rgeoboundaries
-#' #e.g. togo admin2 accents malformed for sscu not hpscu
-#' sfprecise <- rgeoboundaries::geoboundaries("togo", adm_lvl="adm2", type="hpscu")
-#' sfsimple <- rgeoboundaries::geoboundaries("togo", adm_lvl="adm2", type="sscu")
-#' #can correct simple version by specifying UTF8 within rgeob code
-#' #sfsutf8 <- sf::st_read(path, quiet = quiet, options = "ENCODING=UTF8")
-#' #but will that break the precise version ?
-#' #yes it did break the precise version
-#' #I should submit issue to the geoboundaries people
+#' #comparing different types from geoboundaries
+#' compareadmin("togo", level=2,
+#'              datasource=c('geoboundaries','geoboundaries'),
+#'              type=c('sscu','hpscu') )
 #'
 #'
 #' @return \code{sf}

@@ -24,8 +24,6 @@ alllevels <- function(country,
   # TODO if I want to facet, I'll need to use ggplot or tmap
 
 
-  data("afcountries")
-
   # check and convert country names to iso codes
   iso3c <- country2iso(country)
 

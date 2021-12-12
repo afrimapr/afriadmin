@@ -2,13 +2,10 @@
 #'
 #'
 #' @format \code{sf}
-#' @slot data country polygons
 #' @aliases sf_af_gadm0
 #' @name african_country_polygons
-NULL
-
 #' @source \url{https://gadm.org/}
-#' @rdname african_country_polygons
+#' @docType data
 "sf_af_gadm0"
 
 
@@ -16,11 +13,18 @@ NULL
 #'
 #'
 #' @format \code{dataframe}
-#' @slot data dataframe
 #' @aliases afcountries
 #' @name african_country_names
-NULL
-
-# @source \url{https://gadm.org/}
-#' @rdname african_country_names
+#' @source rnaturalearth
+#' @docType data
 "afcountries"
+
+
+#' admin levels available by country from GADM (and names of the levels)
+#'
+#'
+#' @format \code{dataframe}
+#' @aliases GADM36SF
+#' @source \url{https://cran.r-project.org/web/packages/GADMTools/index.html}
+#' @docType data
+"GADM36SF"
